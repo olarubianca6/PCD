@@ -48,8 +48,8 @@ def start_server(protocol, port, mechanism, secure):
 
         num_messages, received_bytes = 0, 0
 
-        while True:
-            try:
+        try:
+            while True:
                 data, addr = server_socket.recvfrom(65535)
                 if not data:
                     break
@@ -59,13 +59,13 @@ def start_server(protocol, port, mechanism, secure):
                 if mechanism == "stop-and-wait":
                     server_socket.sendto(b'a', addr)
 
-            except Exception as e:
-                print(f"Unexpected error: {e}")
-                break
+        except KeyboardInterrupt:
+            print("\nUDP server shutting down...")
 
-        server_socket.close()
-
-    print(f'Server - Protocol: {protocol.upper()}, Messages received: {num_messages}, Bytes received: {received_bytes}.')
+        finally:
+            if server_socket:
+                server_socket.close()
+            print(f'Server - Protocol: {protocol.upper()}, Messages received: {num_messages}, Bytes received: {received_bytes}.')
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="Server for measuring data transfers")
