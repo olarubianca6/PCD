@@ -40,6 +40,7 @@ def start_server(protocol, port, mechanism, secure):
                 break
 
         conn.close()
+        print(f'Server - Protocol: {protocol.upper()}, Messages received: {num_messages}, Bytes received: {received_bytes}.')
 
     else:
         server_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -60,7 +61,7 @@ def start_server(protocol, port, mechanism, secure):
                     server_socket.sendto(b'a', addr)
 
         except KeyboardInterrupt:
-            print("\nUDP server shutting down...")
+            print("\nUDP server shutting down..")
 
         finally:
             if server_socket:
